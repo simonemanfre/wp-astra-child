@@ -1,0 +1,35 @@
+/**
+Theme Name: Lanfranchi Child
+Author: Simone Manfredini
+Author URI: https://wp-startup.com/
+Description: Casa Museo Villa Lanfranchi
+Version: 1.0.0
+Text Domain: astra-child
+Template: astra
+*/
+
+.ast-no-sidebar .entry-content .alignwide {
+  margin-left: calc(-50vw + 50%) !important;
+  margin-right: calc(-50vw + 50%) !important;
+}
+
+@media screen and (min-width: 1400px) {
+  .ast-no-sidebar .entry-content .alignwide {
+    margin-left: calc(-46vw + 50%) !important;
+    margin-right: calc(-46vw + 50%) !important;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .ast-no-sidebar .entry-content .alignwide {
+    margin-left: calc(-41vw + 50%) !important;
+    margin-right: calc(-41vw + 50%) !important;
+  }
+}
+
+@media screen and (min-width: 1800px) {
+  .ast-no-sidebar .entry-content .alignwide {
+    margin-left: calc(-38vw + 50%) !important;
+    margin-right: calc(-38vw + 50%) !important;
+  }
+}
