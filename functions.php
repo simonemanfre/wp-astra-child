@@ -20,16 +20,30 @@
  * Define Constants
  */
 
-define( 'CHILD_THEME_ASTRA_CHILD_VERSION', '1.0.0' );
+define( 'THEME_URL', get_stylesheet_directory_uri() . '/' );
+define( 'THEME_DIR', dirname(__FILE__).'/' );
 
 
-/**
- * Enqueue styles
- */
+//LIBRARY
+require_once(THEME_DIR . 'inc/trapstudio/cpt.php');
+require_once(THEME_DIR . 'inc/trapstudio/scripts.php');
+require_once(THEME_DIR . 'inc/trapstudio/api.php');
+require_once(THEME_DIR . 'inc/trapstudio/security.php');
 
-function child_enqueue_styles() {
 
-	wp_enqueue_style( 'astra-child-theme-css', get_stylesheet_directory_uri() . '/style.css', array('astra-theme-css'), CHILD_THEME_ASTRA_CHILD_VERSION, 'all' );
+//ACF
+if( function_exists('acf_add_options_page') ):
+    require_once(THEME_DIR . 'inc/trapstudio/acf.php');
+endif;
 
+
+//DISABLE COMMENTS (lascio attive le recensioni su woocommerce)
+if( !class_exists('woocommerce') ):
+    require_once(THEME_DIR . 'inc/trapstudio/comments.php');
+endif;
+
+
+//REMOVE ADMIN BAR FOR USER
+if(!current_user_can('edit_posts')){
+    add_filter('show_admin_bar', '__return_false');
 }
-add_action( 'wp_enqueue_scripts', 'child_enqueue_styles', 15 );

@@ -1,0 +1,17 @@
+{
+  "name": "acf/custom-block",
+  "title": "Custom Block",
+  "category": "custom",
+  "icon": "plus-alt2",
+  "supports": {
+    "anchor": true,
+    "mode": false,
+    "align": false
+  },
+  "style": "file:./block.css",
+  "acf": {
+    "renderTemplate": "block.php",
+    "postTypes": ["post", "page"],
+    "mode": "edit"
+  }
+}
