@@ -47,3 +47,22 @@ endif;
 if(!current_user_can('edit_posts')){
     add_filter('show_admin_bar', '__return_false');
 }
+
+
+//THUMBNAILS
+add_theme_support('post-thumbnails' );
+//add_image_size('hero', 1600, 1600, false);
+
+
+//REMOVE MENU PAGES FOR NON ADMIN
+function remove_posts_menu() {
+    $current_user = wp_get_current_user();
+
+    if(!in_array('administrator', $current_user->roles )):
+        remove_menu_page('edit.php');
+        remove_menu_page('tools.php');
+        remove_menu_page('wpcf7');
+        remove_menu_page('wpseo_workouts');
+    endif;
+}
+add_action('admin_menu', 'remove_posts_menu');
