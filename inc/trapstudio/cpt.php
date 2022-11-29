@@ -1,6 +1,7 @@
 <?php 
 
-// Change dashboard Posts to News
+//CAMBIO NOME POSTS IN EVENTI
+/*
 function trp_change_post_object() {
     $get_post_type = get_post_type_object('post');
     $labels = $get_post_type->labels;
@@ -19,8 +20,9 @@ function trp_change_post_object() {
 	$labels->name_admin_bar = 'Eventi';
 }
 add_action( 'init', 'trp_change_post_object' );
+*/
 
-
+//REGISTRAZIONE CUSTOM POST TYPE
 /*
 function cptui_register_my_cpts() {	
 	$labels = [
