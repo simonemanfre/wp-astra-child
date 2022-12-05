@@ -65,7 +65,8 @@ function ws_htaccess( $rules ) {
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
-</IfModule>';
+</IfModule>
+';
 
 	$new_rules = '# DEFLATE compressione
 <IfModule mod_deflate.c>
