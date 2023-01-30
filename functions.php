@@ -29,6 +29,7 @@ require_once(THEME_DIR . 'inc/trapstudio/cpt.php');
 require_once(THEME_DIR . 'inc/trapstudio/scripts.php');
 require_once(THEME_DIR . 'inc/trapstudio/api.php');
 require_once(THEME_DIR . 'inc/trapstudio/security.php');
+require_once(THEME_DIR . 'inc/trapstudio/svg.php');
 
 
 //ACF
