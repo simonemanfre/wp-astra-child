@@ -23,7 +23,6 @@ add_action( 'init', 'trp_change_post_object' );
 */
 
 //REGISTRAZIONE CUSTOM POST TYPE
-/*
 function cptui_register_my_cpts() {	
 	$labels = [
 		"name" => 'Example',
@@ -83,4 +82,3 @@ function cptui_register_my_taxes() {
 	register_taxonomy( "example_typology", [ "example" ], $args );
 }
 add_action( 'init', 'cptui_register_my_taxes' );
-*/

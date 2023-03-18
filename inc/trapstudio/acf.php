@@ -1,6 +1,6 @@
 <?php
 
-//TODO DISABILITARE EDITOR VISUALE ACF
+//DISABILITARE EDITOR VISUALE ACF
 //add_filter('acf/settings/show_admin', '__return_false');
 
 // PAGE OPTION
@@ -16,12 +16,6 @@ acf_add_options_sub_page(array(
     'updated_message'   => __("Opzioni aggiornate", 'acf'),
 ));	
 */
-
-// API KEY
-function my_acf_init() {
-    acf_update_setting('google_api_key', get_field('api', 'option'));
-}
-add_action('acf/init', 'my_acf_init');
 
 
 // GUTENBERG CATEGORIES REGISTRATION
@@ -46,7 +40,7 @@ add_filter( 'block_categories_all', 'trp_block_categories', 10, 2 );
 
 //GUTENBERG BLOCKS REGISTRATION
 function trp_register_acf_blocks() {
-    register_block_type( THEME_DIR . 'blocks/custom-block' );
+    //register_block_type( THEME_DIR . '/partials/blocks/custom-block' );
 }
 add_action( 'init', 'trp_register_acf_blocks' );
 

@@ -20,50 +20,89 @@
  * Define Constants
  */
 
-define( 'THEME_URL', get_stylesheet_directory_uri() . '/' );
-define( 'THEME_DIR', dirname(__FILE__).'/' );
+define('HOME_URL', get_home_url());
+define('THEME_URL', get_stylesheet_directory_uri());
+define('THEME_DIR', dirname(__FILE__));
 
 
 //LIBRARY
-require_once(THEME_DIR . 'inc/trapstudio/cpt.php');
-require_once(THEME_DIR . 'inc/trapstudio/scripts.php');
-require_once(THEME_DIR . 'inc/trapstudio/api.php');
-require_once(THEME_DIR . 'inc/trapstudio/security.php');
-require_once(THEME_DIR . 'inc/trapstudio/svg.php');
 
+//enable custom post type
+//require_once(THEME_DIR . '/inc/trapstudio/cpt.php');
+
+require_once(THEME_DIR . '/inc/trapstudio/scripts.php');
+require_once(THEME_DIR . '/inc/trapstudio/api.php');
+require_once(THEME_DIR . '/inc/trapstudio/security.php');
+require_once(THEME_DIR . '/inc/trapstudio/backend.php');
 
 //ACF
 if( function_exists('acf_add_options_page') ):
-    require_once(THEME_DIR . 'inc/trapstudio/acf.php');
+    require_once(THEME_DIR . '/inc/trapstudio/acf.php');
 endif;
 
+//CF7
+if(function_exists('wpcf7')):
+    require_once(THEME_DIR . '/inc/trapstudio/cf7.php');
+endif;
 
 //DISABLE COMMENTS (lascio attive le recensioni su woocommerce)
 if( !class_exists('woocommerce') ):
-    require_once(THEME_DIR . 'inc/trapstudio/comments.php');
+    require_once(THEME_DIR . '/inc/trapstudio/comments.php');
 endif;
-
-
-//REMOVE ADMIN BAR FOR USER
-if(!current_user_can('edit_posts')){
-    add_filter('show_admin_bar', '__return_false');
-}
 
 
 //THUMBNAILS
 add_theme_support('post-thumbnails' );
 //add_image_size('hero', 1600, 1600, false);
 
+//remove default unused thumbnails
+remove_image_size('medium_large');
+remove_image_size('1536x1536');
+remove_image_size('2048x2048');
 
-//REMOVE MENU PAGES FOR NON ADMIN
-function remove_posts_menu() {
-    $current_user = wp_get_current_user();
+//set default unused thumbnails to 0
+update_option( 'medium_large_size_w', 0 );
+update_option( 'medium_large_size_h', 0 );
 
-    if(!in_array('administrator', $current_user->roles )):
-        remove_menu_page('edit.php');
-        remove_menu_page('tools.php');
-        remove_menu_page('wpcf7');
-        remove_menu_page('wpseo_workouts');
-    endif;
+
+//LIMITO REVISIONI POSTS
+add_filter( 'wp_revisions_to_keep', 'trp_limit_post_revisions', 10, 2 );
+function trp_limit_post_revisions( $num, $post ) {
+    return 20;
 }
-add_action('admin_menu', 'remove_posts_menu');
+
+
+//MOVE JQUERY TO FOOTER
+add_action( 'wp_default_scripts','trp_move_jquery_to_footer' );
+function trp_move_jquery_to_footer( $wp_scripts ){
+  if( !is_admin() ){
+    $wp_scripts->add_data( 'jquery', 'group', 1 );
+    $wp_scripts->add_data( 'jquery-core', 'group', 1 );
+    $wp_scripts->add_data( 'jquery-migrate', 'group', 1 );
+  }
+}
+
+
+//MOVE YOAST SETTINGS PANEL IN EDITOR TO BOTTOM
+function yoasttobottom() {
+	return 'low';
+}
+add_filter( 'wpseo_metabox_prio', 'yoasttobottom');
+
+
+//WEBP
+function trp_convert_image_to_webp( $formats ) {
+	$formats['image/jpeg'] = 'image/webp';
+    $formats['image/png'] = 'image/webp';
+
+	return $formats;
+};
+add_filter( 'image_editor_output_format', 'trp_convert_image_to_webp' );
+
+function trp_filter_image_quality( $quality, $mime_type ) {
+    if ($mime_type === 'image/webp' || $mime_type === 'image/jpeg' || $mime_type === 'image/png') {
+        return 80;
+    }
+    return $quality;
+}
+add_filter( 'wp_editor_set_quality', 'trp_filter_image_quality', 10, 2 );

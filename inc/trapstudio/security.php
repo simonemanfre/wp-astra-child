@@ -1,5 +1,4 @@
 <?php
-
 function ws_whitelabel(){
 	remove_action('wp_head', 'rsd_link');
 	remove_action('wp_head', 'wp_generator');
@@ -19,7 +18,6 @@ function ws_whitelabel(){
 	remove_action( 'template_redirect', 'rest_output_link_header', 11, 0 );
 	remove_action( 'wp_head', 'wp_resource_hints', 2 );
 
-
 	add_filter('the_generator','remove_wp_version_rss');
 
 	function remove_wp_version_rss() {
@@ -28,7 +26,6 @@ function ws_whitelabel(){
 
 	//EMOJI
 	function disable_wp_emojicons() {
-
 	  // all actions related to emojis
 	  remove_action( 'admin_print_styles', 'print_emoji_styles' );
 	  remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
@@ -42,8 +39,8 @@ function ws_whitelabel(){
 	  //add_filter( 'tiny_mce_plugins', 'disable_emojicons_tinymce' );
 	}
 	add_action( 'init', 'disable_wp_emojicons' );
-
 }
+
 function ws_xmlrpc_disable(){
 	// Disable use XML-RPC
 	add_filter( 'xmlrpc_enabled', '__return_false' );
@@ -55,11 +52,13 @@ function ws_xmlrpc_disable(){
 
 	return $headers;
 	}
-
 }
 
-
 function ws_htaccess( $rules ) {
+	$pre_rules = "";
+
+	/*TODO REDIRECT HTTPS
+	
 	$pre_rules = '# REDIRECT HTTP: -> HTTPS:
 <IfModule mod_rewrite.c>
 RewriteEngine On
@@ -67,6 +66,7 @@ RewriteCond %{HTTPS} off
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
 </IfModule>
 ';
+*/
 
 	$new_rules = '# DEFLATE compressione
 <IfModule mod_deflate.c>
@@ -147,7 +147,12 @@ php_flag display_errors off
 <IfModule mod_php7.c>
 	php_flag display_errors off
 </IfModule>
-# SICUREZZA: PHP ERRORS';
+# SICUREZZA: PHP ERRORS
+
+# SICUREZZA: LISTING PAGINE
+Options -Indexes
+# SICUREZZA: LISTING PAGINE
+';
 
 	return $pre_rules . $rules . $new_rules;
 }
@@ -157,5 +162,3 @@ add_filter('mod_rewrite_rules', 'ws_htaccess');
 //------
 ws_whitelabel();
 ws_xmlrpc_disable();
-
-?>

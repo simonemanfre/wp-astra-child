@@ -1,5 +1,4 @@
 <?php
-
 //DISABILITO COMMENTI
 add_action('admin_init', function () {
     // Redirect any user trying to access comments page

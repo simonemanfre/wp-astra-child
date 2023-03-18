@@ -1,4 +1,11 @@
 <?php 
+//SANITIZE PHONE
+function trp_phone($tel) {
+    $tel = str_replace('+', '00', $tel);
+    $tel = preg_replace("/[^0-9]/", "", $tel);
+
+    return $tel;
+}
 
 //GET TEMPLATE PAGE
 function trp_get_template_page($template_slug) {
@@ -22,7 +29,7 @@ function trp_get_taxonomy($taxonomy = 'category', $args = array()) {
 
     $defaults = array(
         'taxonomy' => $taxonomy,
-        'hide_empty' => true,
+        'hide_empty' => 1,
     );
 
     $parsed_args = wp_parse_args( $args, $defaults );
@@ -38,7 +45,7 @@ function trp_get_posts($args) {
     $defaults = array(
         'post_type' => 'post',
         'numberposts' => 5,
-        'suppress_filters' => false,
+        'suppress_filters' => 0,
         'fields' => 'ids',
     );
 
@@ -55,24 +62,30 @@ function trp_query($args) {
     $defaults = array(
         'post_type' => 'post',
         'posts_per_page' => 5,
-        'suppress_filters' => false,
-        'no_found_rows' => true,
+        'suppress_filters' => 0,
         'fields' => 'ids',
     );
 
     $parsed_args = wp_parse_args( $args, $defaults );
 
+    //PAGINATION
+    $no_found_rows = 1;
+    if(isset($args['paged'])):
+        $no_found_rows = 0;
+    endif;
+    $parsed_args['no_found_rows'] = $no_found_rows;
+
     //CACHE TAX QUERY
-    $update_term = false;
+    $update_term = 0;
     if(isset($args['tax_query'])):
-        $update_term = true;
+        $update_term = 1;
     endif;
     $parsed_args['update_post_term_cache'] = $update_term;
 
     //CACHE META QUERY
-    $update_meta = false;
+    $update_meta = 0;
     if(isset($args['meta_query'])):
-        $update_meta = true;
+        $update_meta = 1;
     endif;
     $parsed_args['update_post_meta_cache'] = $update_meta;
 
@@ -84,7 +97,7 @@ function trp_query($args) {
 /*
 ESEMPIO DI UTILIZZO:
 //se passo una 'tax_query' o una 'meta_query' vengono aggiornati in automatico i valori di 'update_post_term_cache' e 'update_post_meta_cache'
-//in caso serva la paginazione passare 'no_found_rows' => false, 
+//in caso serva la paginazione passare il parametro 'paged'
 
     $args = array(
         'post_type' => 'products',
