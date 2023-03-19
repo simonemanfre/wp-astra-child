@@ -6,15 +6,15 @@ if(!current_user_can('edit_posts')){
 
 
 //ADMIN LOGO
-function my_login_logo_url() {
-    return HOME_URL;
+function trp_login_logo_url() {
+    return "https://simonemanfre.it";
 }
-add_filter( 'login_headerurl', 'my_login_logo_url' );
+add_filter( 'login_headerurl', 'trp_login_logo_url' );
 
-function my_login_logo_url_title() {
+function trp_login_logo_url_title() {
     return get_option('blogname');
 }
-add_filter( 'login_headertext', 'my_login_logo_url_title' );
+add_filter( 'login_headertext', 'trp_login_logo_url_title' );
 
 
 //DISABLE EDITOR FULLSCREEN BY DEFAULT
@@ -25,7 +25,7 @@ function ghub_disable_editor_fullscreen_mode() {
 add_action( 'enqueue_block_editor_assets', 'ghub_disable_editor_fullscreen_mode' );
 
 
-//REDIRECT TO DASHBOARD FOR USER
+//REDIRECT TO HOME FOR SUBSCRIBER
 function trp_admin_redirect() {
     if (!current_user_can( 'edit_posts' ) && !wp_doing_ajax() ):
 
@@ -36,17 +36,22 @@ function trp_admin_redirect() {
 }
 add_action( 'admin_init', 'trp_admin_redirect', 1 );
 
-//redirect after login
-function login_redirect( $redirect_to, $request, $user ){
-    if($redirect_to):
-        $url = $redirect_to;
-    else:
-        $url = HOME_URL;
-    endif;
 
-    return $url;
+//REDIRECT AFTER LOGIN
+function trp_login_redirect( $redirect_to, $request, $user ){
+    //se l'utente non è amministratore
+    if(!current_user_can('edit_dashboard')):
+
+        //reindirizzo alle pagine
+		return admin_url('/edit.php?post_type=page');
+
+	else:
+
+		return $redirect_to;
+
+    endif;
 }
-add_filter( 'login_redirect', 'login_redirect', 10, 3 );
+add_filter( 'login_redirect', 'trp_login_redirect', 10, 3 );
 
 
 //REMOVE MENU PAGES FOR NOT ADMINISTRATOR USER
@@ -64,6 +69,7 @@ function remove_posts_menu() {
             endif;
         endforeach;
 
+        /*
         //reindirizzo tutte le altre pagine
         global $pagenow;
 
@@ -74,6 +80,7 @@ function remove_posts_menu() {
             //wp_safe_redirect( admin_url( '/edit.php?post_type=page' ) );
 
         endif;
+        */
 
     endif;
 }
