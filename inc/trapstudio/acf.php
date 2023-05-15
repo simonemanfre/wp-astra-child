@@ -27,10 +27,6 @@ function trp_block_categories( $categories, $block_editor_context ) {
                 'title' => get_bloginfo('name'),
                 'icon'  => 'wordpress',
             ),
-            array(
-                'slug' => 'default',
-                'title' => 'Wordpress',
-            ),
         ),
         $categories
     );

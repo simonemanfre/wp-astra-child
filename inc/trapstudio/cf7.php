@@ -1,6 +1,6 @@
 <?php 
 //RIMUOVO <P> AUTOMATICI DALL'OUTPUT DI CF7
-add_filter('wpcf7_autop_or_not', '__return_false');
+//add_filter('wpcf7_autop_or_not', '__return_false');
 
 
 /*USARE COME ESEMPIO 
