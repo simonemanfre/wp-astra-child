@@ -1,4 +1,31 @@
 <?php 
+// GUTENBERG CATEGORIES REGISTRATION
+/*
+function trp_block_categories( $categories, $block_editor_context ) {
+    return array_merge(
+        array(
+            array(
+                'slug' => 'custom',
+                'title' => get_bloginfo('name'),
+                'icon'  => 'wordpress',
+            ),
+        ),
+        $categories
+    );
+}
+add_filter( 'block_categories_all', 'trp_block_categories', 10, 2 );
+*/
+
+
+//GUTENBERG BLOCKS REGISTRATION
+/*
+function trp_register_acf_blocks() {
+    register_block_type( THEME_DIR . '/partials/blocks/custom-block' );
+}
+add_action( 'init', 'trp_register_acf_blocks' );
+*/
+
+
 //REMOVE ADMIN BAR FOR SUBSCRIBER USER
 if(!current_user_can('edit_posts')){
     add_filter('show_admin_bar', '__return_false');

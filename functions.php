@@ -30,9 +30,11 @@ define('THEME_DIR', dirname(__FILE__));
 //enable custom post type
 //require_once(THEME_DIR . '/inc/trapstudio/cpt.php');
 
-require_once(THEME_DIR . '/inc/trapstudio/scripts.php');
 require_once(THEME_DIR . '/inc/trapstudio/api.php');
+require_once(THEME_DIR . '/inc/trapstudio/htaccess.php');
+require_once(THEME_DIR . '/inc/trapstudio/performance.php');
 require_once(THEME_DIR . '/inc/trapstudio/security.php');
+require_once(THEME_DIR . '/inc/trapstudio/scripts.php');
 require_once(THEME_DIR . '/inc/trapstudio/backend.php');
 
 //ACF
@@ -50,6 +52,10 @@ if( !class_exists('woocommerce') ):
     require_once(THEME_DIR . '/inc/trapstudio/comments.php');
 endif;
 
+//WPML
+if(function_exists('wpml_loaded')):
+    require_once(THEME_DIR . '/inc/trapstudio/wpml.php');
+endif;
 
 //THUMBNAILS
 add_theme_support('post-thumbnails' );

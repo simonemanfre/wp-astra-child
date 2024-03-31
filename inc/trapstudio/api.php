@@ -1,10 +1,7 @@
 <?php 
-//SANITIZE PHONE
-function trp_phone($tel) {
-    $tel = str_replace('+', '00', $tel);
-    $tel = preg_replace("/[^0-9]/", "", $tel);
-
-    return $tel;
+// SUPER ADMIN
+function trp_is_super_admin() {
+    return current_user_can('trap_admin');
 }
 
 //GET TEMPLATE PAGE
@@ -19,9 +16,14 @@ function trp_get_template_page($template_slug) {
         'fields' => 'ids'
     );
     $template_page = get_posts($args);
-    $template_page = $template_page[0];
 
-    return $template_page;
+    if(empty($template_page)):
+
+        return null;
+        
+    endif;
+
+    return $template_page[0];
 }
 
 //GET TERMS
@@ -37,6 +39,15 @@ function trp_get_taxonomy($taxonomy = 'category', $args = array()) {
     $terms = get_terms( $parsed_args );
 
     return $terms;
+}
+
+//GET THE TERMS
+function trp_get_the_terms($post, $taxonomy = 'category', $field = 'term_id') {
+
+    $terms = get_the_terms($post, $taxonomy);
+    $terms_array = wp_list_pluck($terms, $field); 
+
+    return $terms_array;
 }
 
 //GET POSTS
@@ -115,7 +126,7 @@ ESEMPIO DI UTILIZZO:
 */
 
 //TASSONOMIA PRIMARIA YOAST
-function trp_get_primary_term($post_id = 0, $taxonomy = 'category', $term_as_obj = true) {
+function trp_get_primary_term($post_id = 0, $taxonomy = 'category', $fields = 'all') {
 
     if($post_id === 0):
 		$post_id = get_the_ID();
@@ -123,29 +134,96 @@ function trp_get_primary_term($post_id = 0, $taxonomy = 'category', $term_as_obj
 
     //prendo tassonomie
     $terms = get_the_terms($post_id, $taxonomy);
-    if($terms):
 
-        if(class_exists('WPSEO_Primary_Term')):
+    if(is_wp_error($terms)):
+        return false;
+    endif;
 
-            $primary_term  = new WPSEO_Primary_Term( $taxonomy, $post_id );
-            $primary_term = $primary_term->get_primary_term();
+    if($terms === false):
+        return false;
+    endif;
 
-            // Set the term object.
-			$term_obj = get_term( $primary_term );
+    if(class_exists('WPSEO_Primary_Term')):
 
-			if(is_wp_error($term_obj)):
-				$term_obj  = $terms[0];
+        $primary_term  = new WPSEO_Primary_Term( $taxonomy, $post_id );
+        $primary_term = $primary_term->get_primary_term();
+
+        // Set the term object.
+        $term_obj = get_term( $primary_term );
+
+        if(is_wp_error($term_obj)):
+            $term_obj  = $terms[0];
+        endif;
+
+    else:
+
+        $term_obj  = $terms[0];
+
+    endif;
+
+    if(empty($term_obj)):
+        return false;
+    else:
+        return $fields == 'all' ? $term_obj : $term_obj->$fields;
+    endif;
+}
+
+//CONTROLLO SE UN BLOCCO LAYOUT È PRESENTE NEL COMPOSER
+function trp_has_acf_layout($layout) {
+
+    //prendo il composer dal post corrente
+    $composer = get_field('composer');
+
+    //se il composer è valorizzato
+    if(!empty($composer)): 
+        foreach($composer as $item):
+
+            //se trovo il layout richiesto restituisto true ed interrompo
+            if($item['acf_fc_layout'] == $layout):
+
+                return true;
+                break;
+
             endif;
 
-        else:
+        endforeach; 
+    endif;
 
-            $term_obj  = $terms[0];
+    //se non ho trovato il layout o il composer non ha valori restituisco false
+    return false;
+}
+
+//PRENDO I BLOCCHI LAYOUT DAL COMPOSER
+function trp_get_acf_layout($layout) {
+
+    //prendo il composer dal post corrente
+    $composer = get_field('composer');
+
+    //lo stesso layout del blocco può essere presente n volte 
+    $blocks = array();
+
+    //se il composer è valorizzato
+    if(!empty($composer)): 
+        foreach($composer as $item):
+
+            //se trovo il layout richiesto lo aggiungo ai risultati
+            if($item['acf_fc_layout'] == $layout):
+
+                array_push($blocks, $item);
+
+            endif;
+
+        endforeach;
+
+        //se ho trovato almeno un layout restituisco l'array
+        if(!empty($blocks)): 
+
+            return $blocks;
 
         endif;
 
     endif;
 
-    if(!empty($term_obj)):
-        return $term_as_obj ? $term_obj : $term_obj->name;
-    endif;
+    //se non ho trovato il layout o il composer non ha valori restituisco false
+    return false;
 }
