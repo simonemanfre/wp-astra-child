@@ -1,0 +1,44 @@
+{
+  "trailingComma": "es5",
+  "printWidth": 80,
+  "useTabs": false,
+  "tabWidth": 2,
+  "endOfLine": "lf",
+  "semi": true,
+  "singleAttributePerLine": false,
+  "htmlWhitespaceSensitivity": "css",
+  "singleQuote": false,
+  "bracketSpacing": true,
+  "overrides": [
+    {
+      "files": "*.php",
+      "options": {
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.html",
+      "options": {
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.scss",
+      "options": {
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "*.hbs",
+      "options": {
+        "tabWidth": 4
+      }
+    }
+  ]
+}

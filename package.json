@@ -1,0 +1,12 @@
+{
+  "name": "DNA",
+  "version": "1.0.0",
+  "scripts": {
+    "sass:dev": "sass -w assets/scss:assets/css partials/blocks",
+    "sass": "sass -w --style=compressed --no-source-map assets/scss:assets/css partials/blocks"
+  },
+  "author": "Trapstudio",
+  "devDependencies": {
+    "sass": "^1.58.0"
+  }
+}
