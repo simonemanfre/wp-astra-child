@@ -68,19 +68,49 @@ update_option( 'medium_large_size_h', 0 );
 //LIMITO REVISIONI POSTS
 add_filter( 'wp_revisions_to_keep', 'trp_limit_post_revisions', 10, 2 );
 function trp_limit_post_revisions( $num, $post ) {
-    return 20;
+	return 50;
 }
+
+
+//REMOVE JQUERY MIGRATE
+function trp_remove_jquery_migrate( $scripts ) {
+	if ( ! is_admin() && isset( $scripts->registered['jquery'] ) ) {
+		$script = $scripts->registered['jquery'];
+
+		if ( $script->deps ) {
+			// Check whether the script has any dependencies
+			$script->deps = array_diff( $script->deps, array( 'jquery-migrate' ) );
+		}
+	}
+}
+add_action( 'wp_default_scripts', 'trp_remove_jquery_migrate' );
 
 
 //MOVE JQUERY TO FOOTER
-add_action( 'wp_default_scripts','trp_move_jquery_to_footer' );
 function trp_move_jquery_to_footer( $wp_scripts ){
-  if( !is_admin() ){
-    $wp_scripts->add_data( 'jquery', 'group', 1 );
-    $wp_scripts->add_data( 'jquery-core', 'group', 1 );
-    $wp_scripts->add_data( 'jquery-migrate', 'group', 1 );
-  }
+	if( !is_admin() ){
+		$wp_scripts->add_data( 'jquery', 'group', 1 );
+		$wp_scripts->add_data( 'jquery-core', 'group', 1 );
+	}
 }
+add_action( 'wp_default_scripts','trp_move_jquery_to_footer' );
+
+
+//ADD SCRIPT TO HEAD
+/*
+add_action( 'wp_head', 'trp_add_header_script', 1 );
+function trp_add_header_script() {
+
+}
+*/
+
+//ADD SCRIPT TO FOOTER
+/*
+add_action( 'wp_footer', 'trp_add_footer_script', 1 );
+function trp_add_footer_script() {
+
+}
+*/
 
 
 //MOVE YOAST SETTINGS PANEL IN EDITOR TO BOTTOM
