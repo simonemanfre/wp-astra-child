@@ -78,30 +78,6 @@ function trp_limit_post_revisions( $num, $post ) {
 }
 
 
-//REMOVE JQUERY MIGRATE
-function trp_remove_jquery_migrate( $scripts ) {
-	if ( ! is_admin() && isset( $scripts->registered['jquery'] ) ) {
-		$script = $scripts->registered['jquery'];
-
-		if ( $script->deps ) {
-			// Check whether the script has any dependencies
-			$script->deps = array_diff( $script->deps, array( 'jquery-migrate' ) );
-		}
-	}
-}
-add_action( 'wp_default_scripts', 'trp_remove_jquery_migrate' );
-
-
-//MOVE JQUERY TO FOOTER
-function trp_move_jquery_to_footer( $wp_scripts ){
-	if( !is_admin() ){
-		$wp_scripts->add_data( 'jquery', 'group', 1 );
-		$wp_scripts->add_data( 'jquery-core', 'group', 1 );
-	}
-}
-add_action( 'wp_default_scripts','trp_move_jquery_to_footer' );
-
-
 //ADD SCRIPT TO HEAD
 /*
 add_action( 'wp_head', 'trp_add_header_script', 1 );
