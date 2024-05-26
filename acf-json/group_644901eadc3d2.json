@@ -81,7 +81,7 @@
                 {
                     "key": "field_6446b73903e22",
                     "label": "Rimuovo jQuery Migrate",
-                    "name": "performance_jquery_migrate",
+                    "name": "jquery_migrate",
                     "aria-label": "",
                     "type": "true_false",
                     "instructions": "",
