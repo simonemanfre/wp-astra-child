@@ -91,7 +91,7 @@ add_filter( 'login_errors', 'trp_hide_wordpress_errors' );
 function trp_edit_role_caps() {
 	$current_user = wp_get_current_user();
 
-	if( in_array( $current_user->user_email, array('manfre01@gmail.com', 'webdesignsimone@gmail.com', 'simone.manfredini@trapella.it', 'simone.manfredini@trapstudio.it') ) ):
+	if( in_array( $current_user->user_email, array('webdesignsimone@gmail.com', 'simone.manfredini@trapella.it', 'simone.manfredini@trapstudio.it') ) ):
 	
 		//add custom capabilities for super admin
 		$current_user->add_cap( 'trap_admin', true );
