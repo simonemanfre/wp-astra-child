@@ -91,6 +91,23 @@ function trp_add_header_script() {
 add_action( 'wp_footer', 'trp_add_footer_script', 1 );
 function trp_add_footer_script() {
 
+    // Truendo
+    echo '
+<script defer id="truendoPrivacyPanel" type="text/javascript" data-src="https://cdn.priv.center/pc/app.pid.js" data-siteid="e489c91f-8391-4e42-9151-a2c2887818cd"></script>';
+
+    // Analytics
+    echo "
+<!-- Google tag (gtag.js) -->
+<script async truendo='true' data-trucookiecontrol='statistics' type='text/plain' src='https://www.googletagmanager.com/gtag/js?id=G-XXXXX'></script>
+<script truendo='true' data-trucookiecontrol='statistics' type='text/plain'>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-XXXXX');
+</script>
+";
+
 }
 */
 
