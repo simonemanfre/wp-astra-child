@@ -93,7 +93,7 @@ function trp_add_footer_script() {
 
     // Truendo
     echo '
-<script defer id="truendoPrivacyPanel" type="text/javascript" data-src="https://cdn.priv.center/pc/app.pid.js" data-siteid="e489c91f-8391-4e42-9151-a2c2887818cd"></script>';
+<script defer id="truendoPrivacyPanel" type="text/javascript" data-trp-src="https://cdn.priv.center/pc/app.pid.js" data-siteid="e489c91f-8391-4e42-9151-a2c2887818cd"></script>';
 
     // Analytics
     echo "

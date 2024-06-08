@@ -35,6 +35,9 @@ figure figcaption {
     margin-top: 8px;
     font-style: italic;
 }
+.wp-block-gallery img {
+    cursor: pointer;
+}
 .widget {
     margin-bottom: 16px !important;
 }

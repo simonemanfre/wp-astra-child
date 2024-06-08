@@ -16,10 +16,17 @@ jQuery(document).ready(function ($) {
   // Load Scripts deferred
   setTimeout(function () {
     // JS
-    const scripts = document.querySelectorAll("script[data-src]");
+    const scripts = document.querySelectorAll("script[data-trp-src]");
 
     scripts.forEach((script) => {
       script.src = script.dataset.src;
     });
   }, 1500);
+
+  //FANCYBOX
+  if (phpVars.fancybox) {
+    Fancybox.bind(".wp-block-gallery img", {
+      groupAll: true,
+    });
+  }
 });
