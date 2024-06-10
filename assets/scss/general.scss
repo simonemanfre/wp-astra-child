@@ -1,10 +1,21 @@
-/*LINK*/
+/*HEADER*/
 .main-navigation .current-menu-item,
 .main-navigation .menu-item:hover {
     text-decoration: underline;
 }
+
+/*LINK*/
 .entry-content a:not([class]) {
     text-decoration: underline;
+}
+
+/*BUTTON*/
+.wp-block-button .wp-block-button__link {
+    gap: 0;
+    transition: 0.3s ease !important;
+}
+.wp-block-button .wp-block-button__link:hover {
+    gap: 8px;
 }
 
 /*WORDPRESS*/
