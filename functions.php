@@ -79,12 +79,30 @@ function trp_limit_post_revisions( $num, $post ) {
 
 
 //ADD SCRIPT TO HEAD
-/*
-add_action( 'wp_head', 'trp_add_header_script', 1 );
 function trp_add_header_script() {
+		
+	// PRERENDER
+	echo '
+<script type="speculationrules">
+{
+	"prerender": [{
+		"where": {
+			"and": [
+				{ "href_matches": "/*" },
+				{ "not": {"href_matches": "/wp-admin"}},
+				{ "not": {"selector_matches": ".no-prerender"}},
+				{ "not": {"selector_matches": "[rel~=nofollow]"}}
+			]    
+		},
+		"eagerness": "moderate"
+	}]
+}
+</script>
+';
 
 }
-*/
+add_action( 'wp_head', 'trp_add_header_script', 1 );
+
 
 //ADD SCRIPT TO FOOTER
 /*
@@ -93,7 +111,7 @@ function trp_add_footer_script() {
 
     // Truendo
     echo '
-<script defer id="truendoPrivacyPanel" type="text/javascript" data-trp-src="https://cdn.priv.center/pc/app.pid.js" data-siteid="e489c91f-8391-4e42-9151-a2c2887818cd"></script>';
+<script defer id="truendoPrivacyPanel" type="text/javascript" data-trp_src="https://cdn.priv.center/pc/app.pid.js" data-siteid="e489c91f-8391-4e42-9151-a2c2887818cd"></script>';
 
     // Analytics
     echo "

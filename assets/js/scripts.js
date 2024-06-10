@@ -16,10 +16,10 @@ jQuery(document).ready(function ($) {
   // Load Scripts deferred
   setTimeout(function () {
     // JS
-    const scripts = document.querySelectorAll("script[data-trp-src]");
+    const scripts = document.querySelectorAll("script[data-trp_src]");
 
     scripts.forEach((script) => {
-      script.src = script.dataset.src;
+      script.src = script.dataset.trp_src;
     });
   }, 1500);
 
