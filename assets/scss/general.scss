@@ -1,15 +1,18 @@
-/*HEADER*/
-.main-navigation .current-menu-item,
-.main-navigation .menu-item:hover {
+/**
+* HEADER
+* 
+*/
+
+.main-navigation .current-menu-item a,
+.main-navigation .menu-item a:hover {
     text-decoration: underline;
 }
 
-/*LINK*/
-.entry-content a:not([class]) {
-    text-decoration: underline;
-}
+/**
+* BUTTON
+* 
+*/
 
-/*BUTTON*/
 .wp-block-button .wp-block-button__link {
     gap: 0;
     transition: 0.3s ease !important;
@@ -18,7 +21,31 @@
     gap: 8px;
 }
 
-/*WORDPRESS*/
+/**
+* FOOTER
+* 
+*/
+.site-footer a {
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+/**
+* WORDPRESS
+* 
+*/
+
+.widget {
+    margin-bottom: 16px !important;
+}
+
+/* POST CONTENT */
+.entry-content a:not([class]) {
+    text-decoration: underline;
+}
 .entry-content p:first-child {
     margin-top: 0;
 }
@@ -28,6 +55,8 @@
 .entry-content ul {
     margin-bottom: 1.6em !important;
 }
+
+/* IMAGE + GALLERY */
 .wp-block-image.size-full,
 .wp-block-image.size-large {
     margin-top: 0;
@@ -49,11 +78,25 @@ figure figcaption {
 .wp-block-gallery img {
     cursor: pointer;
 }
-.widget {
-    margin-bottom: 16px !important;
+
+/**
+* FORM
+* 
+*/
+
+/* ACCEPTANCE */
+.wpcf7-acceptance .wpcf7-list-item {
+    margin-left: 0;
+}
+.wpcf7-acceptance .wpcf7-list-item label {
+    cursor: pointer;
 }
 
-/*ASTRA*/
+/**
+* ASTRA
+* 
+*/
+
 .ast-no-sidebar .entry-content .alignwide {
     margin-left: calc(-50vw + 50%) !important;
     margin-right: calc(-50vw + 50%) !important;
