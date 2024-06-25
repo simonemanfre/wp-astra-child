@@ -1,4 +1,11 @@
 <?php 
+//ADMIN STYLE E SCRIPT
+function trp_admin_scripts_and_css() {
+    wp_enqueue_script( 'admin', THEME_URL . "/assets/js/admin.js", array(), '1.0', true);
+}
+add_action( 'admin_enqueue_scripts', 'trp_admin_scripts_and_css' );
+
+
 // GUTENBERG CATEGORIES REGISTRATION
 /*
 function trp_block_categories( $categories, $block_editor_context ) {

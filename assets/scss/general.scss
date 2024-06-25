@@ -34,6 +34,71 @@
 }
 
 /**
+* BLOCKS
+* 
+*/
+
+/*TOPIC*/
+.c-topic {
+    // Padding Testo
+    .wp-block-media-text__content {
+        padding-inline: 20px;
+        padding-block: 48px;
+    }
+    @media (width >= 1280px) {
+        // Blocco media + testo non a schermo intero
+        .wp-block-media-text.is-style-imgwide:not(.alignfull) {
+            // Sbordo immagine a sinistra
+            .wp-block-media-text__media {
+                margin-left: calc(
+                    (-50vw + var(--wp--style--global--content-size) / 2)
+                );
+            }
+            // Padding Testo
+            .wp-block-media-text__content {
+                padding-top: 60px;
+                padding-left: 120px;
+                padding-right: 0;
+                padding-bottom: 80px;
+            }
+            // Alignwide
+            &.alignwide {
+                // Sbordo immagine a sinistra
+                .wp-block-media-text__media {
+                    margin-left: calc(
+                        (-50vw + var(--wp--style--global--wide-size) / 2)
+                    );
+                }
+            }
+            // Con immagine a destra
+            &.has-media-on-the-right {
+                // Sbordo immagine a destra
+                .wp-block-media-text__media {
+                    margin-left: 0;
+                    margin-right: calc(
+                        (-50vw + var(--wp--style--global--content-size) / 2)
+                    );
+                }
+                // Padding Testo
+                .wp-block-media-text__content {
+                    padding-left: 0;
+                    padding-right: 120px;
+                }
+                // Alignwide
+                &.alignwide {
+                    // Sbordo immagine a destra
+                    .wp-block-media-text__media {
+                        margin-right: calc(
+                            (-50vw + var(--wp--style--global--wide-size) / 2)
+                        );
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
 * WORDPRESS
 * 
 */
