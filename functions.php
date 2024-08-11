@@ -36,6 +36,7 @@ require_once(THEME_DIR . '/inc/trapstudio/performance.php');
 require_once(THEME_DIR . '/inc/trapstudio/security.php');
 require_once(THEME_DIR . '/inc/trapstudio/scripts.php');
 require_once(THEME_DIR . '/inc/trapstudio/backend.php');
+require_once(THEME_DIR . '/inc/trapstudio/gutenberg.php');
 
 //ACF
 if( function_exists('acf_add_options_page') ):
@@ -72,41 +73,30 @@ update_option( 'medium_large_size_h', 0 );
 
 
 //LIMITO REVISIONI POSTS
-add_filter( 'wp_revisions_to_keep', 'trp_limit_post_revisions', 10, 2 );
-function trp_limit_post_revisions( $num, $post ) {
-	return 50;
+function trp_limit_db_revisions( $num, $post ) {
+    return 50;
 }
+add_filter( 'wp_revisions_to_keep', 'trp_limit_db_revisions', 10, 2 );
+
+	
+//AGGIUNGO SUPPORTO EXCERPT NELLE PAGINE
+add_post_type_support('page', 'excerpt');
+
+
+//RIMUOVO [...] DA EXCERPT
+add_filter( 'excerpt_more', '__return_empty_string' ); 
 
 
 //ADD SCRIPT TO HEAD
+/*
 function trp_add_header_script() {
 		
-	// PRERENDER
-	echo '
-<script type="speculationrules">
-{
-	"prerender": [{
-		"where": {
-			"and": [
-				{ "href_matches": "/*" },
-				{ "not": {"href_matches": "/wp-admin"}},
-				{ "not": {"selector_matches": ".no-prerender"}},
-				{ "not": {"selector_matches": "[rel~=nofollow]"}}
-			]    
-		},
-		"eagerness": "moderate"
-	}]
-}
-</script>
-';
 
 }
-add_action( 'wp_head', 'trp_add_header_script', 1 );
-
+*/
 
 //ADD SCRIPT TO FOOTER
 /*
-add_action( 'wp_footer', 'trp_add_footer_script', 1 );
 function trp_add_footer_script() {
 
     // Truendo
@@ -116,8 +106,8 @@ function trp_add_footer_script() {
     // Analytics
     echo "
 <!-- Google tag (gtag.js) -->
-<script async truendo='true' data-trucookiecontrol='statistics' type='text/plain' src='https://www.googletagmanager.com/gtag/js?id=G-XXXXX'></script>
-<script truendo='true' data-trucookiecontrol='statistics' type='text/plain'>
+<script async src='https://www.googletagmanager.com/gtag/js?id=G-XXXXX'></script>
+<script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
@@ -127,11 +117,5 @@ function trp_add_footer_script() {
 ";
 
 }
+add_action( 'wp_footer', 'trp_add_footer_script', 1 );
 */
-
-
-//MOVE YOAST SETTINGS PANEL IN EDITOR TO BOTTOM
-function yoasttobottom() {
-	return 'low';
-}
-add_filter( 'wpseo_metabox_prio', 'yoasttobottom');

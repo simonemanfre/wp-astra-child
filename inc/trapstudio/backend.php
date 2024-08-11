@@ -6,37 +6,53 @@ function trp_admin_scripts_and_css() {
 add_action( 'admin_enqueue_scripts', 'trp_admin_scripts_and_css' );
 
 
-// GUTENBERG CATEGORIES REGISTRATION
-/*
-function trp_block_categories( $categories, $block_editor_context ) {
-    return array_merge(
-        array(
-            array(
-                'slug' => 'custom',
-                'title' => get_bloginfo('name'),
-                'icon'  => 'wordpress',
-            ),
-        ),
-        $categories
-    );
+// AGGIUNGO CLASSI AL BODY NEL BACKEND
+function trp_admin_body_classes( $classes ) {
+	global $pagenow;
+
+    // aggiungo classe solo per nostri utenti
+	if ( trp_is_super_admin() ) {
+		$classes .= ' trapstudio';
+	}
+
+	return $classes;
 }
-add_filter( 'block_categories_all', 'trp_block_categories', 10, 2 );
-*/
+add_filter( 'admin_body_class', 'trp_admin_body_classes' );
 
 
-//GUTENBERG BLOCKS REGISTRATION
-/*
-function trp_register_acf_blocks() {
-    register_block_type( THEME_DIR . '/partials/blocks/custom-block' );
-}
-add_action( 'init', 'trp_register_acf_blocks' );
-*/
-
-
-//REMOVE ADMIN BAR FOR SUBSCRIBER USER
+/**
+ * REMOVE ADMIN BAR FOR SUBSCRIBER
+ * 
+ * Cambiare capabilitity in 'manage_options' per comprendere tutti gli utenti diversi da amministratore
+ */
 if(!current_user_can('edit_posts')){
     add_filter('show_admin_bar', '__return_false');
 }
+
+
+//DISABLE EDITOR FULLSCREEN BY DEFAULT
+function trp_disable_editor_fullscreen_mode() {
+	$script = "window.onload = function() { const isFullscreenMode = wp.data.select( 'core/edit-post' ).isFeatureActive( 'fullscreenMode' ); if ( isFullscreenMode ) { wp.data.dispatch( 'core/edit-post' ).toggleFeature( 'fullscreenMode' ); } }";
+	wp_add_inline_script( 'wp-blocks', $script );
+}
+add_action( 'enqueue_block_editor_assets', 'trp_disable_editor_fullscreen_mode' );
+
+
+//MOVE YOAST SETTINGS PANEL IN EDITOR TO BOTTOM
+function yoasttobottom() {
+	return 'low';
+}
+add_filter( 'wpseo_metabox_prio', 'yoasttobottom');
+
+
+/**
+ * Change the Rank Math Metabox Priority
+ *
+ * @param array $priority Metabox Priority.
+ */
+add_filter( 'rank_math/metabox/priority', function( $priority ) {
+    return 'low';
+});
 
 
 //ADMIN LOGO
@@ -49,14 +65,6 @@ function trp_login_logo_url_title() {
     return get_option('blogname');
 }
 add_filter( 'login_headertext', 'trp_login_logo_url_title' );
-
-
-//DISABLE EDITOR FULLSCREEN BY DEFAULT
-function ghub_disable_editor_fullscreen_mode() {
-	$script = "window.onload = function() { const isFullscreenMode = wp.data.select( 'core/edit-post' ).isFeatureActive( 'fullscreenMode' ); if ( isFullscreenMode ) { wp.data.dispatch( 'core/edit-post' ).toggleFeature( 'fullscreenMode' ); } }";
-	wp_add_inline_script( 'wp-blocks', $script );
-}
-add_action( 'enqueue_block_editor_assets', 'ghub_disable_editor_fullscreen_mode' );
 
 
 //REDIRECT TO HOME FOR SUBSCRIBER

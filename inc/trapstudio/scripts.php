@@ -1,5 +1,4 @@
 <?php 
-
 function trp_site_scripts_and_css() {
     $dati_tema = wp_get_theme();
 

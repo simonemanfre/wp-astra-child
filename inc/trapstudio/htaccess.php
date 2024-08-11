@@ -3,15 +3,15 @@
 if(get_field('performance_redirect_https', 'option')):
 
     function trp_htaccess_redirect( $rules ) {	
-        $rules .= '# REDIRECT HTTP: -> HTTPS:
+        $new_rules = '# REDIRECT HTTP: -> HTTPS:
     <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteCond %{HTTPS} off
     RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
     </IfModule>
-    ';
+    '.$rules;
 
-        return $rules;
+        return $new_rules;
     }
     add_filter('mod_rewrite_rules', 'trp_htaccess_redirect');
 endif;

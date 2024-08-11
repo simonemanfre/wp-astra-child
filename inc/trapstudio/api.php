@@ -1,7 +1,21 @@
 <?php 
-// SUPER ADMIN
-function trp_is_super_admin() {
-    return current_user_can('trap_admin');
+// FORMAT DATA
+function trp_format_date($date) {
+    // Trasformo data in timestamp
+    $timestamp = strtotime($date);
+
+    // Formatto la data (eventualmente cambiare formato "d F Y")
+    $formattedDate = date_i18n('d F Y', $timestamp);
+
+    return $formattedDate;
+}
+
+//FORMAT PHONE
+function trp_format_phone($tel) {
+    $tel = str_replace('+', '00', $tel);
+    $tel = preg_replace("/[^0-9]/", "", $tel);
+
+    return $tel;
 }
 
 //GET TEMPLATE PAGE
