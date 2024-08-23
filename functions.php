@@ -93,6 +93,7 @@ function trp_add_header_script() {
 		
 
 }
+add_action( 'wp_head', 'trp_add_header_script', 1 );
 */
 
 //ADD SCRIPT TO FOOTER
