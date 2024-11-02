@@ -140,7 +140,9 @@ function trp_edit_role_caps() {
 
 		//didsabilito editor tema e plugin
 		if(get_field('capabilities_files_disabled', 'option')):
-			define('DISALLOW_FILE_EDIT', TRUE);
+			if (!defined('DISALLOW_FILE_EDIT')) {
+                define('DISALLOW_FILE_EDIT', TRUE);
+            }
 		endif;
 
 		//remove dangerous capability for other admin

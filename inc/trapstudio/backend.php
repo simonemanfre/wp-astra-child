@@ -62,7 +62,7 @@ function trp_login_logo_url() {
 add_filter( 'login_headerurl', 'trp_login_logo_url' );
 
 function trp_login_logo_url_title() {
-    return get_option('blogname');
+    return "Sviluppato da Simone Manfredini";
 }
 add_filter( 'login_headertext', 'trp_login_logo_url_title' );
 
